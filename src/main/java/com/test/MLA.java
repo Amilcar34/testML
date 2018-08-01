@@ -94,7 +94,7 @@ public class MLA {
 
 	@Override
 	public String toString() {
-		return "MLA [id=" + id + ", name=" + name + ", country_id=" + country_id + ", sale_fees_mode=" + sale_fees_mode
+		return "Obj MLA [id=" + id + ", name=" + name + ", country_id=" + country_id + ", sale_fees_mode=" + sale_fees_mode
 				+ ", mercadopago_version=" + mercadopago_version + ", default_currency_id=" + default_currency_id
 				+ ", immediate_payment=" + immediate_payment + ", payment_method_ids="
 				+ Arrays.toString(payment_method_ids) + "]";
