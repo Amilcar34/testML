@@ -25,8 +25,16 @@ public class MLA {
 		this.immediate_payment = immediate_payment;
 		this.payment_method_ids = payment_method_ids;
 	}
-    
-	public MLA() {}
+
+	@Override
+	public String toString() {
+		return "MLA [id=" + id + ", name=" + name + ", country_id=" + country_id + ", sale_fees_mode=" + sale_fees_mode
+				+ ", mercadopago_version=" + mercadopago_version + ", default_currency_id=" + default_currency_id
+				+ ", immediate_payment=" + immediate_payment + ", payment_method_ids="
+				+ Arrays.toString(payment_method_ids) + "]";
+	}
+
+
 
 	public String getId() {
 		return id;
@@ -92,13 +100,7 @@ public class MLA {
 		this.payment_method_ids = payment_method_ids;
 	}
 
-	@Override
-	public String toString() {
-		return "Obj MLA [id=" + id + ", name=" + name + ", country_id=" + country_id + ", sale_fees_mode=" + sale_fees_mode
-				+ ", mercadopago_version=" + mercadopago_version + ", default_currency_id=" + default_currency_id
-				+ ", immediate_payment=" + immediate_payment + ", payment_method_ids="
-				+ Arrays.toString(payment_method_ids) + "]";
-	}
+
     
 	
     
