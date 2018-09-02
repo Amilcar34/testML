@@ -73,5 +73,36 @@ public class SiteHandler {
          }
          return null;
     }
+    public List<Attribute> getAttributes(String categorie) {
+		final List<Attribute> listAttribute = new ArrayList<Attribute>();
+		final List<Value> values = new ArrayList<Value>();
+		try {
+		
+			response = meli.get("/categories/" + categorie + "/attributes");
+			final Attribute[] listMapAttributes = gson.fromJson(response.getResponseBody(), Attribute[].class);
+		
+			System.out.println(listMapAttributes.length);
+			for (Attribute attribute : listMapAttributes) {
+				System.out.print(attribute.getTags());
+				if(attribute.getTags().isRequired())
+					listAttribute.add(attribute);
+			}
+			System.out.println(listAttribute.size());
+			for(Attribute attribute:listAttribute) {
+				System.out.println(attribute.getName() +" " + attribute.getType());
+				 Value[] list = attribute.getValues();
+				 	for(Value value : list) {
+				 		System.out.println(value.getName() +" " + value.getId());
+				 	}
+				 	System.out.println("-------------------------------------------------");
+			}
+			
+			
+		} catch (MeliException e) {e.printStackTrace();}
+		catch (IOException e) {	e.printStackTrace();}
+
+		return null;
+	}
+
 
 }
