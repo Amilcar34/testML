@@ -9,8 +9,6 @@ import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import javax.print.attribute.AttributeSetUtilities;
-
 import com.google.gson.Gson;
 import com.google.gson.internal.StringMap;
 import com.mercadolibre.sdk.Meli;
@@ -31,50 +29,64 @@ public class SiteHandler {
 	private Gson gson = new Gson();
 	private static final SiteHandler instance = new SiteHandler();
 
-
-
 	public List<Site> getAllMeliSite() {
 		final List<Site> newSites = new ArrayList<Site>();
 		try {
-			
-			
+
 			response = meli.get("/sites/");
 			final List<StringMap<String>> sites = gson.fromJson(response.getResponseBody(), List.class);
 			for (final StringMap<String> entries : sites) {
 				newSites.add(new Site(entries.get(ID_KEY), entries.get(NAME_KEY)));
 			}
-		} catch (MeliException ex) { System.out.println("Error " + ex.getMessage());
-		} catch (IOException e) { System.out.println("Error " + e.getMessage());}
+		} catch (MeliException ex) {
+			System.out.println("Error " + ex.getMessage());
+		} catch (IOException e) {
+			System.out.println("Error " + e.getMessage());
+		}
 		return newSites;
 	}
 
-	public List<Attribute> getAttributes(String categorie) {
-		final List<Attribute> listAttribute = new ArrayList<Attribute>();
+	public List<Attribute> getAttributesRequieredByCategorie(String categorie) {
+		final List<Attribute> listAttributeRequiered = new ArrayList<Attribute>();
+		final List<Attribute> listAttribute = new ArrayList<>();
 		final List<Value> values = new ArrayList<Value>();
 		try {
-		
-			response = meli.get("/categories/" + "MLA417226" + "/attributes");
+			response = meli.get("/categories/" + categorie+ "/attributes");
 			final Attribute[] listMapAttributes = gson.fromJson(response.getResponseBody(), Attribute[].class);
-		
+
 			System.out.println(listMapAttributes.length);
 			for (Attribute attribute : listMapAttributes) {
-				System.out.print(attribute.getTags());
-				if(attribute.getTags().isRequired())
-					listAttribute.add(attribute);
+				System.out.print(attribute.getTags().isRequired());
+				if (attribute.getTags().isRequired())
+					listAttributeRequiered.add(attribute);
+				listAttribute.add(attribute);
 			}
-			System.out.println(listAttribute.size());
-			for(Attribute attribute:listAttribute) {
-				System.out.println(attribute.getName() +" " + attribute.getType());
-				 Value[] list = attribute.getValues();
-				 	for(Value value : list) {
-				 		System.out.println(value.getName() +" " + value.getId());
-				 	}
-				 	System.out.println("-------------------------------------------------");
+			System.out.println();
+			System.out.println(listAttributeRequiered.size());
+			for (Attribute attribute : listAttributeRequiered) {
+				System.out.println(attribute.getName() + " " + attribute.getType());
+				Value[] list = attribute.getValues();
+				for (Value value : list) {
+					System.out.println(value.getName() + " " + value.getId());
+				}
+				System.out.println("-------------------------------------------------");
 			}
-			
-			
-		} catch (MeliException e) {e.printStackTrace();}
-		catch (IOException e) {	e.printStackTrace();}
+			for (Attribute attribute : listAttribute) {
+				System.out.println(attribute.getName() + " " + attribute.getValues());
+				if (attribute.getValues() != null) {
+					for (Value value : attribute.getValues()) {
+						System.out.println(value.getName() + " " + value.getId());
+					}
+				}
+				System.out.println("-------------------------------------------------");
+
+			}
+
+		} catch (MeliException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		return null;
 	}
@@ -101,7 +113,7 @@ public class SiteHandler {
 	public static SiteHandler getInstance() {
 		return instance;
 	}
-	
+
 	public PaymentMethodIds getPaymentMethodIds(String payment_method_ids) {
 		final PaymentMethodIds paymentMethodIds;
 		try {

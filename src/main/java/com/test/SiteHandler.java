@@ -1,7 +1,6 @@
 package com.test;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +8,9 @@ import com.google.gson.Gson;
 import com.google.gson.internal.StringMap;
 import com.mercadolibre.sdk.Meli;
 import com.mercadolibre.sdk.MeliException;
+import com.modelo.MLA;
+import com.modelo.PaymentMethodIds;
+import com.modelo.Site;
 import com.ning.http.client.Response;
 
 public class SiteHandler {

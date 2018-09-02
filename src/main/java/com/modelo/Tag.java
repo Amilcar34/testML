@@ -2,7 +2,7 @@ package com.modelo;
 
 public class Tag {
 
-    private boolean required;
+    private boolean required = false;
     
 	public boolean isRequired() {return required;}
 	
